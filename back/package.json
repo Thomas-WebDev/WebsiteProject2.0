@@ -1,0 +1,51 @@
+{
+    "name": "MEAN-MYSQL-LOGIN",
+    "version": "1.0.0",
+    "description": "Social media consolidation and scheduling posts system.",
+    "author": "KronosFandomTimelines",
+    "license": "ISC",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "keywords": [
+        "util",
+        "functional",
+        "server",
+        "client",
+        "browser"
+    ],
+    "contributors": [],
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.15.0",
+        "connect-flash": "^0.1.1",
+        "cookie-parser": "^1.4.0",
+        "debug": "^2.2.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.14.0",
+        "express-validator": "^4.2.1",
+        "fb": "^2.0.0",
+        "handlebars": ">= 0.0.0",
+        "instagram-web-api": "^2.2.2",
+        "jsonwebtoken": "^8.3.0",
+        "multer": "^1.4.2",
+        "mysql": "^2.18.1",
+        "mysql2": "^2.1.0",
+        "node-cron": "^3.0.0",
+        "nodemailer": "^5.1.1",
+        "oauth": "^0.9.15",
+        "passport": "0.4.1",
+        "passport-facebook": "^2.0.0",
+        "passport-instagram": ">= 0.0.0",
+        "passport-local": ">= 0.0.0",
+        "passport-pinterest": ">= 0.0.0",
+        "passport-reddit": ">= 0.0.0",
+        "passport-twitch": ">= 0.0.0",
+        "passport-twitter": ">= 0.0.0",
+        "passport-youtube-v3": ">= 0.0.0",
+        "pinterest-api": "^1.1.4",
+        "twitch-api-v5": "2.0.4",
+        "twitter": "^1.7.1",
+        "uuid": "^3.1.0"
+    }
+}
