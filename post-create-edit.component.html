@@ -1,0 +1,319 @@
+<div class="container">
+	<div class="row">
+		<form [formGroup]="postForm" enctype="multipart/form-data" (ngSubmit)="submit()" class="col-md-12">
+            <div class="row d-flex" style="min-height: 10vh;">
+                <div class="col-md-12">
+                    <div class="row">
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 align-self-center">
+                            <div class="form-group">
+                                <select formControlName="type" (change)="onTypeChange()">
+                                    <option value="Article" >Article</option>
+                                    <option value="Character">Character</option>
+                                    <option value="Event">Event</option>
+                                    <option value="Group">Group</option>
+                                    <option value="Location">Location</option>
+                                    <option value="Species/Race">Species/Race</option>
+                                    <option value="Vehicle">Vehicle</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="width: 100%;">
+                                <input 
+                                formControlName="title"
+                                id="title" 
+                                type="text" 
+                                class="form-control"
+                                maxlength="70"
+                                #title
+                                style="width: 100%;">
+                                <div *ngIf="postForm.get('title').errors?.maxlength; else titleElseBlock">
+                                    Title cannot exceed 70 characters
+                                </div>
+                                <ng-template #titleElseBlock>
+                                    Characters remaining: {{70 - title.value.length}}
+                                </ng-template> 
+                            </div>
+                        </div>                                
+                    </div> 
+                    <div class="row">
+                        <hr>
+                    </div>  
+                </div>
+            </div>
+            <div class="row" style="min-height: 90vh;">
+                <div class="col-md-9 form-group secondColMobile">
+                    <div class="row">
+                        <quill-editor [style]="quillStyle" [modules]="quillConfig" formControlName="content" id="content">
+                        </quill-editor> 
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="button" class="btn btn-primary" (click)="addInternalLinks()">Add internal links</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-primary" (click)="undoInternalLinks()">Undo internal links</button>                    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 firstColMobile">
+                    <div class="row border">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-md-12" style="max-height:80vh;">
+                                    <img [src]="imgFile" alt="thumbnail" style="height:100%; width:100%;">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="text-center">
+                                    <h6>UPLOAD FILE</h6>
+                                    <h6>OR</h6> 
+                                    <h6>SELECT EXISTING IMAGE</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="text-center">
+                                    <input 
+                                    formControlName="thumbnail"
+                                    id="thumbnail" 
+                                    type="file"
+                                    accept="image/*" 
+                                    class="form-control"
+                                    (change)="onFileChange($event)">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="text-center">
+                                    <select formControlName="thumbnail" (change)="onImageChange($event.target.value)">
+                                        <option [ngValue]="null" disabled>Select an existing image</option>
+                                        <option *ngFor="let image of imageDrop;">
+                                            {{image.mediaTitle}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row altNamesRow">
+                                        <div class="text-center">
+                                            {{labelsArr[0]}}
+                                        </div>
+                                        <input type="text" id="altNameValue" name="altNameValue" #altNameValue maxlength="50">
+                                        <button type="button" class="btn" (click)="addItem('altNames', altNameValue.value, -1)">Add</button>
+                                        <ng-container formArrayName="altNames">
+                                            <ul>
+                                                <li *ngFor="let altName of getArray('altNames').controls; let i=index" [formGroupName]="i">
+                                                    <button (click)="removeItem('altNames', i)" class="btn btn-danger float-right">{{ altName.controls.name.value }}</button> 
+                                                </li>
+                                            </ul>
+                                        </ng-container>
+                                    </div>
+                                    <div class="row descriptionRow">
+                                        <div class="text-center">
+                                            Description
+                                        </div>
+                                        <textarea 
+                                            formControlName="description"
+                                            id="description" 
+                                            class="form-control"
+                                            maxlength="160"
+                                            #description>
+                                        </textarea>
+                                        <div *ngIf="postForm.get('description').errors?.maxlength; else descriptionElseBlock">
+                                            Description cannot exceed 160 characters
+                                        </div>
+                                        <ng-template #descriptionElseBlock>
+                                            Characters remaining: {{160 - description.value.length}}
+                                        </ng-template>                                       
+                                    </div>
+                                    <div *ngIf="type!=='Article'">
+                                        <div *ngIf="type!=='Species/Race' || type!=='Event'">
+                                            <div class="row generalCatagoryRow">
+                                                <div class="text-center">
+                                                    {{labelsArr[1]}}
+                                                </div>
+                                                <div>
+                                                    <div *ngIf="type==='Character'">
+                                                        <select formControlName="generalCatagory" (change)="onImageChange($event.target.value)">
+                                                            <option *ngFor="let genderVal of genderArr;" [ngValue]="genderVal">
+                                                                {{genderVal}}
+                                                            </option>
+                                                        </select>
+                                                        <div *ngIf="type==='postForm.get('generalCatagory')'">
+                                                            <input 
+                                                                formControlName="generalCatagory"
+                                                                id="generalCatagory" 
+                                                                type="text" 
+                                                                class="form-control"
+                                                                maxlength="70"
+                                                                #generalCatagory
+                                                                placeholder="Input custom gender">
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="type==='Event'">
+                                                        <h6>
+                                                            Event Catagories
+                                                        </h6>
+                                                        <p>
+                                                            An event does not need to have an end date and will show up as a slide.
+                                                        </p>
+                                                        <p>
+                                                            An era or period will appear as a colored and labeled line on the timeline and requires both a start and end date.
+                                                        </p>
+                                                        <select formControlName="generalCatagory">
+                                                            <option [ngValue]="event">Event</option>
+                                                            <option [ngValue]="era">Era/Period</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row subCatagoryRow">
+                                                <div class="text-center">
+                                                    {{getLabel(2)}}
+                                                </div>
+                                                <div class="">
+                                                    <input 
+                                                    formControlName="title"
+                                                    id="title" 
+                                                    type="text" 
+                                                    class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="type!=='Vehicle'">
+                                            <div class="row locationRow">
+                                                <div class="text-center">
+                                                    {{labelsArr[3]}}
+                                                </div>
+                                                <div class="location">
+                                                    <select formControlName="generalCatagory" (change)="onLocationChange($event.target.value)">
+                                                        <option *ngFor="let locationVal of locationsDrop;" [ngValue]="locationVal.id">
+                                                            {{locationVal.title}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="type!=='Species/Race' && type!=='Location'">
+                                            <div class="row startDateRow">
+                                                <div class="text-center">
+                                                    {{labelsArr[4]}}
+                                                </div>
+                                                <div class="date">
+                                                    <div class="form-group" formGroupName="start">
+                                                        <div class="form-group">
+                                                            <input 
+                                                            formControlName="displayStart"
+                                                            id="displayStart" 
+                                                            type="text" 
+                                                            class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input 
+                                                            formControlName="dayStart"
+                                                            id="dayStart" 
+                                                            type="number" 
+                                                            class="form-control"
+                                                            min="1"
+                                                            max="31">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input 
+                                                            formControlName="monthStart"
+                                                            id="monthStart" 
+                                                            type="number" 
+                                                            class="form-control"
+                                                            min="1"
+                                                            max="12">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input 
+                                                            formControlName="yearStart"
+                                                            id="yearStart" 
+                                                            type="number" 
+                                                            class="form-control">
+                                                            <input type="checkbox" class="form-check-input" id="startBCCheckBox">
+                                                            <label class="form-check-label" for="startBCCheckBox" (change)="changeToBC('start')">BC</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row endDateRow">
+                                                <div class="text-center">
+                                                    {{labelsArr[5]}}
+                                                </div>
+                                                <div class="date">
+                                                    <div class="form-group" formGroupName="end">
+                                                        <div class="form-group">
+                                                            <input 
+                                                            formControlName="displayEnd"
+                                                            id="displayEnd" 
+                                                            type="text" 
+                                                            class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input 
+                                                            formControlName="dayEnd"
+                                                            id="dayEnd" 
+                                                            type="number" 
+                                                            class="form-control"
+                                                            min="1"
+                                                            max="31">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input 
+                                                            formControlName="monthEnd"
+                                                            id="monthEnd" 
+                                                            type="number" 
+                                                            class="form-control"
+                                                            min="1"
+                                                            max="12">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input 
+                                                            formControlName="yearEnd"
+                                                            id="yearEnd" 
+                                                            type="number" 
+                                                            class="form-control"
+                                                            min="0">
+                                                            <input type="checkbox" class="form-check-input" id="endBCCheckBox">
+                                                            <label class="form-check-label" for="endBCCheckBox" (change)="changeToBC('end')">BC</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row affiliationRow">
+                                        <div class="text-center">
+                                            {{labelsArr[6]}}
+                                        </div>
+                                        <input type="text" id="affiliationValue" name="affiliationValue" #affiliationValue maxlength="50">
+                                        <button type="button" class="btn" (click)="addItem('affiliations', affiliationValue.value, -1)">Add</button>
+                                        <ng-container formArrayName="affiliations">
+                                            <ul>
+                                                <li *ngFor="let affiliation of getArray('affiliations').controls; let i=index" [formGroupName]="i">
+                                                    <button (click)="removeItem('affiliations', i)" class="btn btn-danger float-right">{{ affiliation.controls.name.value }}</button> 
+                                                </li>
+                                            </ul>
+                                        </ng-container>
+                                    </div>
+                                    <div class="row">
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+				    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        {{postForm.value | json}}
+        {{postForm.get('content').value | json}}
+    </div>
+</div>
+
+

@@ -1,0 +1,38 @@
+<section class="background-cover bg-dark  pb-5 position-relative pt-5 text-white" style="background-image:url('https://images.unsplash.com/photo-1533130061792-64b345e4a833?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwyMDkyMnwwfDF8c2VhcmNofDY2fHxtdXN0YW5nJTIwbmVwYWx8ZW58MHx8fA&ixlib=rb-1.2.1&q=80&w=1080');">
+    <div *ngIf="!isLoggedIn">
+        <button type="submit" routerLink="/login" class="btn btn-danger btn-lg pl-4 pr-4 rounded-pill float-right" style="margin-right: 30px;">
+            <span class="align-middle">Login</span>
+        </button>
+    </div>
+    <div *ngIf="isLoggedIn">
+        <button type="button" class="btn btn-danger btn-lg pl-4 pr-4 rounded-pill float-right" style="margin-right: 30px;">
+            <span class="align-middle">Logout</span>
+        </button>
+    </div>
+    <div class="container mt-5  pb-5 pt-5">
+        <div class="pb-5 pt-5 row">
+            <div class="col-lg-10 col-xl-6 pb-5 pt-5">
+                <h1 class="display-3 font-weight-normal ">Kronos Fandom Timelines</h1>
+                <p class="lead mb-5"></p>
+                <form> 
+                    <div class="form-row ">
+                        <div class="col-sm form-group"> 
+                            <input type="text" class="form-control form-control-lg pl-4 pr-4 rounded-pill" placeholder="Search out site"> 
+                        </div>
+                        <div class="col-sm-auto form-group text-right"> 
+                            <button type="submit" class="btn btn-danger btn-lg pl-4 pr-4 rounded-pill">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em" class="mr-1">
+                                    <g>
+                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                        <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"></path>
+                                    </g>
+                                </svg>
+                                <span class="align-middle">Search</span>&nbsp;
+                            </button>                                     
+                        </div>
+                    </div>                             
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
